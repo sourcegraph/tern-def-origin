@@ -1,0 +1,23 @@
+{
+  "name": "tern-def-origin",
+  "description": "Tern plugin for determining the definition AST node and origin for JavaScript types",
+  "version": "0.0.1",
+  "author": {
+    "name": "Quinn Slack",
+    "email": "sqs@sourcegraph.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sourcegraph/tern-def-origin.git"
+  },
+  "dependencies": {
+    "tern": "git://github.com/marijnh/tern.git",
+    "defnode": "0.0.4"
+  },
+  "devDependencies": {
+    "mocha": "1.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
