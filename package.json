@@ -11,7 +11,7 @@
     "url": "git://github.com/sourcegraph/tern-def-origin.git"
   },
   "dependencies": {
-    "tern": "*",
+    "tern": "git://github.com/sqs/tern.git#sourcegraph",
     "defnode": "0.0.4"
   },
   "devDependencies": {
