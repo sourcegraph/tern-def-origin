@@ -1,7 +1,7 @@
 {
   "name": "tern-def-origin",
   "description": "Tern plugin for determining the definition AST node and origin for JavaScript types",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": {
     "name": "Quinn Slack",
     "email": "sqs@sourcegraph.com"
