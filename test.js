@@ -1,4 +1,4 @@
-var assert = require('assert'), execFile = require('child_process').execFile, path = require('path');
+var assert = require('assert'), execFile = require('child_process').execFile, fs = require('fs'), path = require('path');
 
 describe('tern condense output', function() {
   [
@@ -6,7 +6,8 @@ describe('tern condense output', function() {
     {name: 'nodejs', args: ['--plugin', 'node']},
   ].forEach(function(file) {
     it(file.name + ' (with args: ' + (file.args || []).join(' ') + ')', function(done) {
-      var want = require('./testdata/' + file.name + '.json');
+      var expFile = './testdata/' + file.name + '.json';
+      var want = require(expFile);
       var args = ['node_modules/tern/bin/condense'];
       if (file.args) args.push.apply(args, file.args);
       args.push('--plugin', 'def-origin', 'testdata/' + file.name + '.js')
@@ -14,7 +15,16 @@ describe('tern condense output', function() {
         if (stderr) console.error(stderr);
         assert.ifError(err);
         var got = JSON.parse(stdout);
-        // console.log(JSON.stringify(got, null, 2));
+        if (process.env['EXP']) {
+          var pp = JSON.stringify(got, null, 2);
+          fs.writeFile(expFile, pp + '\n', function(err) {
+            assert.ifError(err);
+            assert(false); // don't let test pass when writing expectation
+            done();
+          });
+          return;
+        }
+        if (process.env['DEBUG']) console.log(JSON.stringify(got, null, 2));
         assert.deepEqual(got, want);
         done();
       });
