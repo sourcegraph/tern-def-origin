@@ -20,12 +20,15 @@ tern.registerPlugin('def-origin', function(server, options) {
 
   return {
     passes: {
-      preCondenseReach: function(state) {
-        Object.keys(state.roots).forEach(function(rootName) {
-          traverse(state.roots[rootName]);
-        });
-        Object.keys(state.cx.topScope.props).forEach(function(prop) {
-          traverse(state.cx.topScope.props[prop]);
+      preCondenseReach: function f(state) {
+        // Must run after plugins that modify state.roots.
+        state.passes.preCondenseReach.push(function(state) {
+          Object.keys(state.roots).forEach(function(rootName) {
+            traverse(state.roots[rootName]);
+          });
+          Object.keys(state.cx.topScope.props).forEach(function(prop) {
+            traverse(state.cx.topScope.props[prop]);
+          });
         });
       },
     },
