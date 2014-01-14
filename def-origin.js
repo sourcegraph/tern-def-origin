@@ -1,20 +1,23 @@
 var defnode = require('defnode'), tern = require('tern');
 
 tern.registerPlugin('def-origin', function(server, options) {
-  function traverse(av) {
+  function traverse(state, av) {
     // detect cycles
     if (av._defNodeSeen) return;
     av._defNodeSeen = true;
 
-    var type = av.getType();
-    if (type && av.originNode && av.originNode.sourceFile) {
-      if (!type.metaData) type.metaData = {};
-      type.metaData.aval = avalMetaData(av);
-      type.metaData.type = typeMetaData(type);
+    if (state.isTarget(av.origin)) {
+      var type = av.getType();
+      if (type) {
+        if (!type.metaData) type.metaData = {};
+        if (av.originNode && av.originNode.sourceFile) type.metaData.aval = avalMetaData(av);
+        else type.metaData.aval = synthesizeAValMetadata(type);
+        type.metaData.type = typeMetaData(type);
+      }
     }
 
     av.forAllProps(function(prop, val, local) {
-        traverse(val);
+        traverse(state, val);
     });
   }
 
@@ -24,16 +27,20 @@ tern.registerPlugin('def-origin', function(server, options) {
         // Must run after plugins that modify state.roots.
         state.passes.preCondenseReach.push(function(state) {
           Object.keys(state.roots).forEach(function(rootName) {
-            traverse(state.roots[rootName]);
+            traverse(state, state.roots[rootName]);
           });
           Object.keys(state.cx.topScope.props).forEach(function(prop) {
-            traverse(state.cx.topScope.props[prop]);
+            traverse(state, state.cx.topScope.props[prop]);
           });
         });
       },
     },
   };
 });
+
+function synthesizeAValMetadata(type) {
+  if (type.originNode) return {originFile: type.originNode.sourceFile.name, defSpan: formatSpan(type.originNode)};
+}
 
 function avalMetaData(av) {
   var md = {

@@ -4,6 +4,7 @@ describe('tern condense output', function() {
   [
     {name: 'simple'},
     {name: 'nodejs', args: ['--plugin', 'node']},
+    {name: 'requirejs', args: ['--plugin', 'requirejs', 'testdata/requirejs_b.js']},
   ].forEach(function(file) {
     it(file.name + ' (with args: ' + (file.args || []).join(' ') + ')', function(done) {
       var expFile = './testdata/' + file.name + '.json';
