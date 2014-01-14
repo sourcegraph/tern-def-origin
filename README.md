@@ -16,6 +16,8 @@ origin for JavaScript types.
 
 To install dependencies, run `npm install`.
 
+This plugin requires tern 0.5.1 (which sets the `sourceFile` property on AST nodes).
+
 
 ### With the tern server
 
