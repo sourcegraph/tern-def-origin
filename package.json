@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "tern": "git://github.com/sqs/tern.git#sourcegraph",
-    "defnode": "0.0.4"
+    "defnode": "~0.0.5"
   },
   "devDependencies": {
     "mocha": "1.10.0"
