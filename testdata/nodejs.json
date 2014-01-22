@@ -88,6 +88,12 @@
               "origin": "testdata/nodejs.js"
             }
           }
+        },
+        "!data": {
+          "type": {
+            "origin": "testdata/nodejs.js",
+            "name": "exports"
+          }
         }
       }
     }
