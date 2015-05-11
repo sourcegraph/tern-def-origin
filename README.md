@@ -37,7 +37,7 @@ Load the plugin:
 $ node_modules/tern/bin/condense --plugin def-origin testdata/simple.js
 ```
 
-You'll see the new `!data.aval` and !data.type` key paths on types in the
+You'll see the new `!data.aval` and `!data.type` key paths on types in the
 condensed output:
 
 ```json
